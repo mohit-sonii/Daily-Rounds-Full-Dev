@@ -1,0 +1,5 @@
+
+<h2>Extensions in user.model.js</h2><br>
+• I have added two new fields which I think would be good enough to maintain consistency and to avoid many unnecessary future calls<br>
+• assignedTodos-> is the field that will contain an array of ToDos Id's, WHY ? This is because so that the user can view who has assigned the task to them, and when ever a new todo is created we have an option where we specify the assignedUsers username in an array in Todo.model.js , so I thought if we are adding the users in the assignedUser then the assignedUser should be able to view only those on which it is assigned for, right? I think in that way and which is why I implement that additional functionality, as it was mention that we can extend the functionality accoridng to our choice.<br>
+• Also the user who creates the Todo shall have the todo ID for index purpose as in this way when I need to get all the todos of a particular user then instead of iterating the whole todo list which might become clumsy after more additions, I am storing the ID's for those todos which that person creates only, Just another addiontal functionlity 
