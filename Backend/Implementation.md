@@ -9,3 +9,9 @@ Model or Schema is defined for the ToDo List items, it tells how the data is bei
 <hr>
 <h3>user.model.js</h3><br>
 This file only contains two fields,one is username and other one is email and hence the schema are designed in that way.
+<hr>
+<h3> auth.controller.js</h3><br>
+This file contains the auth logic, that includes two methods one is regiser and other one is login, both logic are present in the code with comments
+<hr>
+<h3>auth.route.js</h3><br>
+This file contains the routes only that is responsible to navigate the route to their desired method calls
