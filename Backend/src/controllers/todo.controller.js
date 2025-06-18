@@ -4,7 +4,7 @@ import { User } from "../models/user.model.js";
 // this method is responsible for validating the title for a todo,  as the title must be unique across the data
 export const validateTitle = async (req, res) => {
     try {
-        const title  = req.params.title;
+        const title = req.params.title;
         const fetchByTitle = await ToDo.findOne({ title });
         if (fetchByTitle) {
             res.status(409).json({
@@ -67,19 +67,21 @@ export const createToDo = async (req, res) => {
             status: 500,
             message: "Error while Creating a Todo",
         });
-        return
+        return;
     }
 };
-
 
 // this method will accept the entries that needs to be change and will update all of them in the respective Todo ana first it is accepting the todo Id in the params.
 export const updateTodos = async (req, res) => {
     try {
         const todoId = req.params.id;
-        const {...rest} = req.body
-        await ToDo.findByIdAndUpdate(todoId,rest)
-        res.status(200).json({status:200,message:"Data updated successfully"})
-        return
+        const { ...rest } = req.body;
+        await ToDo.findByIdAndUpdate(todoId, rest);
+        res.status(200).json({
+            status: 200,
+            message: "Data updated successfully",
+        });
+        return;
     } catch (err) {
         console.log(err);
         res.status(500).json({
@@ -92,9 +94,39 @@ export const updateTodos = async (req, res) => {
 // it will send all the todos to the user
 export const getToDos = async (_, res) => {
     try {
-        const allToDos = await ToDo.find({});
-        res.status(200).json({status:200,message:"Data Fetched Successfully",data:allToDos})
-        return
+        // /api/todos?status=completed&priority=high&page=2
+         let { page = 1, limit = 10, ...filters } = req.query;
+
+        page = parseInt(page);
+        limit = parseInt(limit);
+        const skip = (page - 1) * limit;
+
+        // Clean up filters (optional: remove empty or null strings)
+        Object.keys(filters).forEach(key => {
+            if (filters[key] === '') {
+                delete filters[key];
+            }
+        });
+
+        // Fetch filtered + paginated todos
+        const allToDos = await ToDo.find(filters)
+            .skip(skip)
+            .limit(limit);
+
+        const totalCount = await ToDo.countDocuments(filters);
+
+        res.status(200).json({
+            status: 200,
+            message: "Data Fetched Successfully",
+            data: allToDos,
+            pagination: {
+                total: totalCount,
+                page,
+                pages: Math.ceil(totalCount / limit),
+                limit
+            }
+        });
+        return;
     } catch (err) {
         console.log(err);
         res.status(500).json({
@@ -107,44 +139,54 @@ export const getToDos = async (_, res) => {
 // this will delete the todo with mentioned ID, the changes done in the todo will reflect the changes in the currentUser and the user whom the todo is assigned
 export const deleteTodos = async (req, res) => {
     try {
-        const userId = req.id
+        const userId = req.id;
         const todoId = req.params.id;
         const currentUser = await User.findById(userId);
-        try{
+        try {
             const todo = await ToDo.findById(todoId);
-            for(const user of todo.assignedUsers){
-                const assignedUser = await User.findOne({username:user})
-                const filterTodoForAssignedUser = assignedUser.assignedToDos.filter((id)=>id!=todoId)
-                assignedUser.assignedToDos=filterTodoForAssignedUser
-                assignedUser.save();    
+            for (const user of todo.assignedUsers) {
+                const assignedUser = await User.findOne({ username: user });
+                const filterTodoForAssignedUser = assignedUser.assignedToDos.filter(
+                    (id) => id != todoId
+                );
+                assignedUser.assignedToDos = filterTodoForAssignedUser;
+                assignedUser.save();
             }
-            await ToDo.findByIdAndDelete(todoId)
-        }catch(err){
+            await ToDo.findByIdAndDelete(todoId);
+        } catch (err) {
             console.log(err);
-            res.status(404).json({status:404,message:"Todo Not found with this ID"})
-            return
+            res.status(404).json({
+                status: 404,
+                message: "Todo Not found with this ID",
+            });
+            return;
         }
-        
-        try{
-            const filterTodos = currentUser.todos.filter((item)=>item!=todoId)
-            currentUser.todos=filterTodos
+
+        try {
+            const filterTodos = currentUser.todos.filter((item) => item != todoId);
+            currentUser.todos = filterTodos;
             currentUser.save();
-        }catch(err){
+        } catch (err) {
             console.log(err);
-            res.status(500).json({status:500,message:"Error while making changes in database"})
-            return
+            res.status(500).json({
+                status: 500,
+                message: "Error while making changes in database",
+            });
+            return;
         }
 
-        res.status(200).json({status:200,message:"Data Deleted Successfully"})
-        return
-
+        res.status(200).json({
+            status: 200,
+            message: "Data Deleted Successfully",
+        });
+        return;
     } catch (err) {
         console.log(err);
         res.status(500).json({
             status: 500,
             message: "Error while Deleting a Todo",
         });
-        return
+        return;
     }
 };
 
@@ -153,12 +195,19 @@ export const getSpecficTodo = async (req, res) => {
     try {
         const todoId = req.params.id;
         const result = await ToDo.findById(todoId);
-        if(!result){
-            res.status(404).json({status:404,message:"Todo With this ID does not found"})
-            return
+        if (!result) {
+            res.status(404).json({
+                status: 404,
+                message: "Todo With this ID does not found",
+            });
+            return;
         }
-        res.status(200).json({status:200,message:"Data Fetched Successfully",data:result})
-        return
+        res.status(200).json({
+            status: 200,
+            message: "Data Fetched Successfully",
+            data: result,
+        });
+        return;
     } catch (err) {
         console.log(err);
         res.status(500).json({
@@ -171,23 +220,26 @@ export const getSpecficTodo = async (req, res) => {
 // To add the notes in the todos field i need ot create a seperate method and route for that, and for that I am accpeting the ntoes data from the body and the id from the params, then I push that notes in the dedicated Todo.
 export const addNotesToTodo = async (req, res) => {
     try {
-        const { notes } = req.body
+        const { notes } = req.body;
         const todoId = req.params.id;
-        const todoData = await ToDo.findById(todoId)
+        const todoData = await ToDo.findById(todoId);
         if (!todoData) {
-            res.status(404).json({ status: 404, message: "Todo not found" })
-            return
+            res.status(404).json({ status: 404, message: "Todo not found" });
+            return;
         }
         if (notes && notes.length !== 0) {
             const newNotes = notes.map((item) => ({
                 content: item,
-                createdAt: Date.now()
+                createdAt: Date.now(),
             }));
 
             todoData.notes.push(...newNotes);
             await todoData.save();
 
-            res.status(200).json({ status: 200, message: "Notes Created Successfully" });
+            res.status(200).json({
+                status: 200,
+                message: "Notes Created Successfully",
+            });
             return;
         } else {
             res.status(400).json({ status: 400, message: "No notes provided" });
@@ -201,4 +253,3 @@ export const addNotesToTodo = async (req, res) => {
         });
     }
 };
-
