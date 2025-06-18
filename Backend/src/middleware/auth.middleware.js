@@ -1,5 +1,6 @@
 import { User } from "../models/user.model.js";
 
+// this middlware is responsible for validating the cookie that there should be a user inthe cookie, it is just an additional functionality and the cookie stores the ID of the current user which is also good when we need to have it at some point of the code.
 export const authMiddleware = async (req, res, next) => {
    try {
       const userId = req.cookies.current_user_id;
@@ -14,6 +15,7 @@ export const authMiddleware = async (req, res, next) => {
          }
          req.id = userId;
          next();
+         return
       }
       res.status(400).json({ status: 400, message: "Please Login again" });
       return;

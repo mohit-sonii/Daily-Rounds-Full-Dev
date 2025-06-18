@@ -14,3 +14,7 @@
 <h2> Extension in auth.middleware.js</h2>
 <br>
 • Added a middleware to check whether the authenic user is making a request or not, I will add the method during each route calls,so that consistency would be maintain and the routes can be assessed only by the authenticated user.
+
+<hr>
+<h2>Extension in Todo Routes.js</h2>
+• I have included a new route to validate the title as the title must be unique across data, so I have added a new route to validate the title

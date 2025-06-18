@@ -2,7 +2,7 @@ import { User } from "../models/user.model.js";
 
 export const register = async (req, res) => {
    try {
-      // if a user is already register and logged in it will not reach to this route as redux will handle that part will be handled by Redux
+      // if a user is already register and logged in it will not reach to this route as redux will handle that part
       const { username, email } = req.body;
       const userExists = await User.findOne({
          $or: [{ username }, { email }],
@@ -42,7 +42,7 @@ export const login = async (req, res) => {
          });
          return;
       }
-      res.cookie("current_user_id", isUser._id, {
+      res.cookie("current_user_id", isUser._id.toString(), {
          httpOnly: true,
          maxAge: 1000 * 24 * 60 * 60,
          sameSite: "strict",

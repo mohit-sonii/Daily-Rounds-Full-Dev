@@ -4,6 +4,7 @@ const TodoModel = new Schema(
    {
       title: {
          required: true,
+         unique: true,
          type: String,
       },
       description: {
@@ -18,9 +19,16 @@ const TodoModel = new Schema(
          type: Boolean,
          default: false,
       },
-      tags: [String],
+      tags: {
+         type: [String],
+         default: []
+      },
 
-      assignedUsers: [String], // usernames of the asssigned users
+      assignedUsers: {
+         // usernames of the asssigned users
+         type: [String],
+         default: []
+      },
 
       // the user will be the reference to this field, and hence the type of this field will be ObjectID which is not a string its Mongodb Id type ,
 

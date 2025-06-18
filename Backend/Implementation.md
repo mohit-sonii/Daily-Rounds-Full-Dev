@@ -15,3 +15,11 @@ This file contains the auth logic, that includes two methods one is regiser and 
 <hr>
 <h3>auth.route.js</h3><br>
 This file contains the routes only that is responsible to navigate the route to their desired method calls
+
+<hr>
+<h3>todo.controller.js</h3><br>
+This file contains all the methods related to the todos, please visitthe file and every method have the comments of their working
+
+<hr>
+<h3>todo.route.js</h3><br>
+this contains all the routes that are for todos
