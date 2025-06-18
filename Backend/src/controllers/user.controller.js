@@ -7,7 +7,7 @@ export const getUsers = async(req, res) => {
     const id= req.id;
     const allUsers = await User.find({});
     const filteredUsers = allUsers.filter((item)=>item._id!=id)
-    res.status(200).json({status:200,message:"Users Fethced Successfully",data:filteredUsers})
+    res.status(200).json({status:200,message:"Users Fetched Successfully",data:filteredUsers})
     return
    } catch (err) {
       console.log(err);
