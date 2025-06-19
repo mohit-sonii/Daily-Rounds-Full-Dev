@@ -18,7 +18,7 @@ const ToDoAssemble = () => {
       try {
          const result = await axios.get(
             `http://localhost:3000/api/todos?page=${currentPage}`,
-            // `https://daily-rounds-full-dev.vercel.app/api/todos?page=${currentPage}`
+            // `https://daily-rounds-full-dev.vercel.app/api/todos?page=${currentPage}`,
             {
                withCredentials: true,
             }
@@ -45,7 +45,7 @@ const ToDoAssemble = () => {
       try {
          const result = await axios.patch(
             `http://localhost:3000/api/todos/${todoId}`,
-            // `https://daily-rounds-full-dev.vercel.app/api/todos/${todoId}`
+            // `https://daily-rounds-full-dev.vercel.app/api/todos/${todoId}`,
             { completed: !currentStatus },
             {
                headers: {
@@ -67,7 +67,7 @@ const ToDoAssemble = () => {
       try {
          const result = await axios.delete(
             `http://localhost:3000/api/todos/${todoId}`,
-            // `https://daily-rounds-full-dev.vercel.app/api/todos/${todoId}`
+            // `https://daily-rounds-full-dev.vercel.app/api/todos/${todoId}`,
             {
                withCredentials: true,
             }
@@ -75,6 +75,7 @@ const ToDoAssemble = () => {
          const filteredTodos = toDos.filter((item) => item._id != todoId);
          setToDo(filteredTodos);
          toast.success(result.data.message);
+         pagination()
       } catch (err) {
          console.log(err);
          if (err.response.data) {
@@ -88,7 +89,7 @@ const ToDoAssemble = () => {
       try {
          const result = await axios.post(
             `http://localhost:3000/api/todos/${currentSelectedId}/notes`,
-            // `https://daily-rounds-full-dev.vercel.app/api/todos/${currentSelectedId}/notes`
+            // `https://daily-rounds-full-dev.vercel.app/api/todos/${currentSelectedId}/notes`,
             {notes:noteContent},
             {
                headers: {
@@ -112,6 +113,7 @@ const ToDoAssemble = () => {
       setShowModal(true);
       setId(todoId);
    };
+   
    return (
       <>
          <div className="gap-6  p-4  flex flex-col rounded-md w-full">
@@ -122,7 +124,7 @@ const ToDoAssemble = () => {
                   onSave={handleAddNote}
                />
             )}
-            <div className="flex flex-col ">
+            <div className="flex flex-col  gap-6">
                {toDos.map((item, index) => {
                   const isExpanded = expandedId === item._id;
                   return (

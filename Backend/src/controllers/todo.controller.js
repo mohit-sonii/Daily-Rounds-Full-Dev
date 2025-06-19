@@ -95,7 +95,7 @@ export const updateTodos = async (req, res) => {
 export const getToDos = async (req, res) => {
    try {
       // /api/todos?status=completed&priority=high&page=2
-      let { page = 1, limit = 10 } = req.query;
+      let { page = 1, limit = 5 } = req.query;
 
       page = parseInt(page);
       const userId = req.id;

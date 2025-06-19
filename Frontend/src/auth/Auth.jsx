@@ -37,7 +37,7 @@ const Auth = () => {
          if (currentPage === "register") {
             registerResult = await axios.post(
                "http://localhost:3000/api/auth/register",
-               // "https://daily-rounds-full-dev.vercel.app/api/auth/register"
+               // "https://daily-rounds-full-dev.vercel.app/api/auth/register",
                data,
                {
                   headers: {
@@ -49,7 +49,7 @@ const Auth = () => {
          } else {
             registerResult = await axios.post(
                "http://localhost:3000/api/auth/login",
-               // "https://daily-rounds-full-dev.vercel.app/api/auth/login"
+               // "https://daily-rounds-full-dev.vercel.app/api/auth/login",
                data,
                {
                   headers: {
