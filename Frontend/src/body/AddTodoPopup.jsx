@@ -52,7 +52,6 @@ const AddTodoPopup = ({ onClose, onSubmit}) => {
       const finalData = {
          ...formData,
          assignedUsers: selectedUsers,
-
          tags: processedTags,
       };
 

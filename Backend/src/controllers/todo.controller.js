@@ -217,7 +217,7 @@ export const addNotesToTodo = async (req, res) => {
    try {
       const { notes } = req.body;
       const todoId = req.params.id;
-      
+
       const todoData = await ToDo.findById(todoId);
       if (!todoData) {
          res.status(404).json({ status: 404, message: "Todo not found" });
@@ -242,5 +242,34 @@ export const addNotesToTodo = async (req, res) => {
          status: 500,
          message: "Error while Fetching a Todo",
       });
+   }
+};
+
+export const filterByTitle = async (req, res) => {
+   try {
+      const { title } = req.query;
+      const currentId = req.id;
+      const user = await User.findById(currentId);
+
+      // should be done on the assigned users todo list,not to all
+      const query = {
+         assignedUsers: user.username,
+      };
+
+      if (title) {
+         query.title = { $regex: title, $options: "i" }; 
+      }
+
+      const todos = await ToDo.find(query);
+      res.status(200).json({
+         status: 200,
+         message: "Todo fetched successfully",
+         data: todos,
+      });
+      return;
+   } catch (err) {
+      console.log(err);
+      res.status(500).json({ status: 500, message: "Internal Server Error" });
+      return;
    }
 };

@@ -6,6 +6,8 @@ import AddTodoPopup from "./AddTodoPopup";
 
 const NewAdditionAndSearch = () => {
    const [showAddModal, setShowAddModal] = useState(false);
+   const [alltodos,setAllTodos] =useState([])
+   const [filterField,setFilterField] = useState("")
 
    const handleAddNew = async (form) => {
       try {
@@ -17,12 +19,28 @@ const NewAdditionAndSearch = () => {
          });
          toast.success(res.data.message);
          setShowAddModal(false);
-         // Optionally refetch todos or lift the handler
       } catch (err) {
+         console.log(err)
          toast.error(err.response?.data?.message || "Failed to add ToDo");
       }
    };
 
+   const filterBySearch=async()=>{
+      try{
+         const res =await axios.get(
+            `http://localhost:3000/api/todos/search/filter?title=${filterField}`,
+            // `https://daily-rounds-full-dev.vercel.app/api/todos/search/filter?title=${filterField}`,
+            {
+               withCredentials:true
+            }
+         )
+         toast.success(res.data.message)
+         setAllTodos(res.data.data)
+      }catch(err){
+         console.log(err)
+         return
+      }
+   }
    return (
       <>
          <div className="w-[20%] p-6 gap-6 flex flex-col bg-white rounded-sm shadow-2xl">
@@ -105,10 +123,12 @@ const NewAdditionAndSearch = () => {
                <div className="w-[60%] flex flex-row gap-3 h-max justify-end">
                   <input
                      type="text"
+                     value={filterField}
+                     onChange={(e)=>setFilterField(e.target.value)}
                      className="w-[80%] h-max p-2 rounded-md font-semibold text-gray-600 bg-white border-1 border-gray-200 text-md outline-0 text-[12px]"
-                     placeholder="Type..."
+                     placeholder="Search by title..."
                   />
-                  <div className=" h-max w-max p-1 bg-white rounded-md border-1 border-gray-100 outline-0">
+                  <div className=" h-max w-max p-1 bg-white rounded-md border-1 border-gray-100 outline-0" onClick={filterBySearch}>
                      <img
                         src="https://endlessicons.com/wp-content/uploads/2015/08/search-icon-2-614x460.png"
                         alt="image"
@@ -118,7 +138,7 @@ const NewAdditionAndSearch = () => {
                   </div>
                </div>
             </div>
-            <ToDoAssemble />
+            <ToDoAssemble alltodos={alltodos}/>
          </div>
       </>
    );

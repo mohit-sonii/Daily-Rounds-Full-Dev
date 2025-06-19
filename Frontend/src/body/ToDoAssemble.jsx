@@ -1,18 +1,21 @@
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
 import { toast } from "react-hot-toast";
 import axios from "axios";
 import { AddNotePopup } from "./AddNotePopup";
 
-const ToDoAssemble = () => {
+const ToDoAssemble = ({alltodos}) => {
    const [showModal, setShowModal] = useState(false);
 
-   const [toDos, setToDo] = useState([]);
-   const [totalCount, setTotalCount] = useState();
+   const [toDos, setToDo] = useState(alltodos);
+   // const [totalCount, setTotalCount] = useState();
    const [currentPage, setCurrentPage] = useState(1);
    const [numberOfPages, setNumberOfPages] = useState();
    const [expandedId, setExpandedId] = useState(null);
    const [currentSelectedId, setId] = useState(null);
+
+   useEffect(() => {
+   setToDo(alltodos);
+}, [alltodos]);
 
    const pagination = async () => {
       try {
@@ -28,7 +31,7 @@ const ToDoAssemble = () => {
          setToDo(res.data);
          setNumberOfPages(res.pagination.pages);
          setCurrentPage(res.pagination.page);
-         setTotalCount(res.pagination.total);
+         // setTotalCount(res.pagination.total);
       } catch (err) {
          console.log(err);
          if (err.response.data) {
@@ -75,7 +78,7 @@ const ToDoAssemble = () => {
          const filteredTodos = toDos.filter((item) => item._id != todoId);
          setToDo(filteredTodos);
          toast.success(result.data.message);
-         pagination()
+         pagination();
       } catch (err) {
          console.log(err);
          if (err.response.data) {
@@ -90,7 +93,7 @@ const ToDoAssemble = () => {
          const result = await axios.post(
             `http://localhost:3000/api/todos/${currentSelectedId}/notes`,
             // `https://daily-rounds-full-dev.vercel.app/api/todos/${currentSelectedId}/notes`,
-            {notes:noteContent},
+            { notes: noteContent },
             {
                headers: {
                   "Content-Type": "application/json",
@@ -100,7 +103,7 @@ const ToDoAssemble = () => {
          );
          toast.success(result.data.message);
          setShowModal(false);
-         pagination()
+         pagination();
       } catch (err) {
          console.log(err);
          if (err.response?.message) {
@@ -113,7 +116,7 @@ const ToDoAssemble = () => {
       setShowModal(true);
       setId(todoId);
    };
-   
+
    return (
       <>
          <div className="gap-6  p-4  flex flex-col rounded-md w-full">

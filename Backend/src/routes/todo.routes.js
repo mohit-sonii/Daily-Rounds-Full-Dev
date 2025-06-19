@@ -1,5 +1,5 @@
 import {Router} from 'express'
-import { createToDo, deleteTodos, addNotesToTodo,getSpecficTodo, getToDos, updateTodos, validateTitle } from '../controllers/todo.controller.js';
+import { createToDo, deleteTodos, addNotesToTodo,getSpecficTodo, getToDos, updateTodos, validateTitle, filterByTitle } from '../controllers/todo.controller.js';
 import { authMiddleware } from '../middleware/auth.middleware.js';
 
 const router = Router();
@@ -17,5 +17,7 @@ router.route("/").get(authMiddleware,getToDos) // To get all the todos
 router.route("/:id").get(authMiddleware,getSpecficTodo) // to get a specific todo
 
 router.route("/:id/notes").post(authMiddleware,addNotesToTodo) // to post notes to a specific todo
+
+router.route("/search/filter").get(authMiddleware,filterByTitle) // to filter the search result
 
 export default router   
