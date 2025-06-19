@@ -18,6 +18,7 @@ const ToDoAssemble = () => {
       try {
          const result = await axios.get(
             `http://localhost:3000/api/todos?page=${currentPage}`,
+            // `https://daily-rounds-full-dev.vercel.app/api/todos?page=${currentPage}`
             {
                withCredentials: true,
             }
@@ -44,6 +45,7 @@ const ToDoAssemble = () => {
       try {
          const result = await axios.patch(
             `http://localhost:3000/api/todos/${todoId}`,
+            // `https://daily-rounds-full-dev.vercel.app/api/todos/${todoId}`
             { completed: !currentStatus },
             {
                headers: {
@@ -65,6 +67,7 @@ const ToDoAssemble = () => {
       try {
          const result = await axios.delete(
             `http://localhost:3000/api/todos/${todoId}`,
+            // `https://daily-rounds-full-dev.vercel.app/api/todos/${todoId}`
             {
                withCredentials: true,
             }
@@ -85,6 +88,7 @@ const ToDoAssemble = () => {
       try {
          const result = await axios.post(
             `http://localhost:3000/api/todos/${currentSelectedId}/notes`,
+            // `https://daily-rounds-full-dev.vercel.app/api/todos/${currentSelectedId}/notes`
             {notes:noteContent},
             {
                headers: {

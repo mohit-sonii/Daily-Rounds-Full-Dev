@@ -16,6 +16,7 @@ const Header = () => {
       try {
          const result = await axios.get(
             "http://localhost:3000/api/user/get-users",
+            // 'https://daily-rounds-full-dev.vercel.app/api/user/get-users'
             {
                withCredentials: true,
             }

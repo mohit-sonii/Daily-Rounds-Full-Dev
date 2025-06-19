@@ -9,7 +9,10 @@ const NewAdditionAndSearch = () => {
 
    const handleAddNew = async (form) => {
       try {
-         const res = await axios.post("http://localhost:3000/api/todos", form, {
+         const res = await axios.post(
+            "http://localhost:3000/api/todos"
+            // "https://daily-rounds-full-dev.vercel.app/api/todos"
+            , form, {
             withCredentials: true,
          });
          toast.success(res.data.message);
