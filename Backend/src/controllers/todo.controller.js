@@ -257,7 +257,7 @@ export const filterByTitle = async (req, res) => {
       };
 
       if (title) {
-         query.title = { $regex: title, $options: "i" }; 
+         query.title = { $regex: title, $options: "i" };
       }
 
       const todos = await ToDo.find(query);
@@ -270,6 +270,48 @@ export const filterByTitle = async (req, res) => {
    } catch (err) {
       console.log(err);
       res.status(500).json({ status: 500, message: "Internal Server Error" });
+      return;
+   }
+};
+
+export const filterByFilters = async (req, res) => {
+   try {
+      const userId = req.id;
+      const { priority, tags } = req.query;
+
+      const user = await User.findById(userId);
+      if (!user) {
+         return res
+            .status(404)
+            .json({ status: 404, message: "User not found" });
+      }
+
+      const query = {
+         assignedUsers: user.username,
+      };
+
+      if (priority) {
+         // For multiple priority values: e.g., priority=high,low
+         const priorities = priority.split(",");
+         query.priority = { $in: priorities };
+      }
+
+      if (tags) {
+         // For multiple tags: e.g., tags=coding,games
+         const tagsArray = tags.split(",");
+         query.tags = { $in: tagsArray };
+      }
+
+      const filteredTodos = await ToDo.find(query);
+      res.status(200).json({
+         status: 200,
+         message: "Data Filtered Successfully",
+         data: filteredTodos,
+      });
+      return;
+   } catch (err) {
+      console.log(err);
+      res.status(500).json({ status: 500, message: "Internal Server Erorr" });
       return;
    }
 };
