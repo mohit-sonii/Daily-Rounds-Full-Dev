@@ -45,7 +45,7 @@ export const login = async (req, res) => {
       res.cookie("current_user_id", isUser._id.toString(), {
          httpOnly: true,
          maxAge: 1000 * 24 * 60 * 60,
-         sameSite: "strict",
+         sameSite: "none",
       });
       res.status(200).json({
          status: 200,
