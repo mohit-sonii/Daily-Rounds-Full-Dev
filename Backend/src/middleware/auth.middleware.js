@@ -4,6 +4,7 @@ import { User } from "../models/user.model.js";
 export const authMiddleware = async (req, res, next) => {
    try {
       const userId = req.cookies.current_user_id;
+      console.log(userId)
       if (userId) {
          const isUser = await User.findById(userId);
          if (!isUser) {

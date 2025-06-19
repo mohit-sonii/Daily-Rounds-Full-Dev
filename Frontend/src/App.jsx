@@ -24,6 +24,7 @@ function App() {
                   {/* Auth Route */}
                   <Route path="/register" element={<Auth/>} />
                   <Route path="/home" element={<Home/>} />
+                  
             </Routes>
       </>
    );
