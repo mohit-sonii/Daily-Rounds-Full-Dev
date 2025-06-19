@@ -6,7 +6,7 @@ import {
 } from "react-router-dom";
 import Auth from "./auth/Auth";
 import { useEffect } from "react";
-import Home from "./home/home";
+import Home from "./home/Home";
 
 function App() {
    const location = useLocation();
