@@ -18,3 +18,7 @@
 <hr>
 <h2>Extension in Todo Routes.js</h2>
 • I have included a new route to validate the title as the title must be unique across data, so I have added a new route to validate the title
+
+<hr>
+<h2>Extension in User.route.js</h2>
+• Added a route to fetch all the avaiable user 

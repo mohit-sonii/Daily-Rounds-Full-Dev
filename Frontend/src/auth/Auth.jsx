@@ -4,20 +4,25 @@ import { useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { toast } from "react-hot-toast";
-import { authValidation } from "../validations/authValidations";
+import { useDispatch } from "react-redux";
+import { registerValidation,loginValidation } from "../validations/authValidations";
+import { updateCurrentUser } from "../store/usernameSlice";
 
-// Both login and register functionality are done at a single place, 
+// Both login and register functionality are done at a single place,
 
 const Auth = () => {
    const [currentPage, setCurrentPage] = useState("register");
 
+   const dispatch = useDispatch();
    const navigate = useNavigate();
+   const validationSchema =
+      currentPage === "register" ? registerValidation : loginValidation;
 
    const {
       register,
       handleSubmit,
       formState: { errors },
-   } = useForm({ resolver: zodResolver(authValidation) });
+   } = useForm({ resolver: zodResolver(validationSchema) });
 
    useEffect(() => {
       for (const [key, value] of Object.entries(errors)) {
@@ -37,6 +42,7 @@ const Auth = () => {
                   headers: {
                      "Content-Type": "application/json",
                   },
+                  withCredentials: true, 
                }
             );
          } else {
@@ -47,11 +53,14 @@ const Auth = () => {
                   headers: {
                      "Content-Type": "application/json",
                   },
+                  withCredentials: true, 
                }
             );
          }
          const result = registerResult.data;
          if (result.status === 200) {
+            dispatch(updateCurrentUser(data.username));
+            localStorage.setItem("username",data.username)
             toast.success(result.message);
             navigate("/home");
          }
@@ -70,10 +79,7 @@ const Auth = () => {
          <h4 className="font-bold text-2xl">
             {currentPage === "register" ? "Register" : "Login"} to your account
          </h4>
-         <div
-            className="flex w-[90%] lg:w-[40%] flex-col gap-6 p-4"
-            style={{ border: "0.5px solid gray", borderRadius: "6px" }}
-         >
+         <div className="flex w-[90%] lg:w-[40%] flex-col gap-6 p-4 shadow-2xl rounded-md">
             <form
                onSubmit={handleSubmit(onSubmit)}
                className="flex flex-col justify-between rounded-md gap-6 p-4"
@@ -83,7 +89,7 @@ const Auth = () => {
                   required={true}
                   defaultValue={""}
                   placeholder="username"
-                  className="rounded-md shadow border-0 p-4 outline-0  bg-gray-200 text-black font-semibold text-sm"
+                  className="rounded-md border-0 p-4 outline-0  bg-gray-200 text-black font-semibold text-sm"
                />
 
                {currentPage === "register" && (
@@ -92,11 +98,11 @@ const Auth = () => {
                      required={true}
                      defaultValue={""}
                      placeholder="email"
-                     className="rounded-md shadow border-0 p-4 outline-0  bg-gray-200 text-black font-semibold text-sm"
+                     className="rounded-md border-0 p-4 outline-0  bg-gray-200 text-black font-semibold text-sm"
                   />
                )}
 
-               <button className="px-10 py-4 cursor-pointer flex justify-center  hover:bg-gray-700  transition-all ease-in-out items-center rounded-md text-white text-sm font-bold w-max bg-gray-900">
+               <button className="px-10 py-4 button">
                   {currentPage === "register" ? "Register" : "Login"}
                </button>
             </form>

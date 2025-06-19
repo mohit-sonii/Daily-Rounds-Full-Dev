@@ -6,6 +6,7 @@ import mongoose from 'mongoose'
 import cors from 'cors'
 import authRoutes from './routes/auth.routes.js'
 import todoRoutes from './routes/todo.routes.js'
+import userRoutes from './routes/user.routes.js'
 
 // To configure the ENV variables
 dotenv.config()
@@ -29,6 +30,7 @@ app.use(cookieParser())
 
 app.use("/api/auth",authRoutes)
 app.use("/api/todos",todoRoutes)
+app.use("/api/user",userRoutes)
 
 const PORT=process.env.PORT
 

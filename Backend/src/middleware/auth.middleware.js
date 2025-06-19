@@ -17,7 +17,7 @@ export const authMiddleware = async (req, res, next) => {
          next();
          return
       }
-      res.status(400).json({ status: 400, message: "Please Login again" });
+      res.status(400).json({ status: 400, message: "Session Expired !! Please Login again" });
       return;
    } catch (err) {
       console.log(err);
