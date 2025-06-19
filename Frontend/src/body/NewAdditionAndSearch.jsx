@@ -13,8 +13,8 @@ const NewAdditionAndSearch = () => {
    const handleAddNew = async (form) => {
       try {
          const res = await axios.post(
-            "http://localhost:3000/api/todos",
-            // "https://daily-rounds-full-dev.vercel.app/api/todos"
+            // "http://localhost:3000/api/todos",
+            "https://daily-rounds-full-dev.vercel.app/api/todos",
             form,
             {
                withCredentials: true,
@@ -42,8 +42,8 @@ const NewAdditionAndSearch = () => {
    const filterBySearch = async () => {
       try {
          const res = await axios.get(
-            `http://localhost:3000/api/todos/search/filter?title=${filterField}`,
-            // `https://daily-rounds-full-dev.vercel.app/api/todos/search/filter?title=${filterField}`,
+            // `http://localhost:3000/api/todos/search/filter?title=${filterField}`,
+            `https://daily-rounds-full-dev.vercel.app/api/todos/search/filter?title=${filterField}`,
             {
                withCredentials: true,
             }
@@ -73,8 +73,8 @@ const NewAdditionAndSearch = () => {
 
 
          const res = await axios.get(
-            `http://localhost:3000/api/todos/filters?${queryParams.toString()}`,
-            // `https://daily-rounds-full-dev.vercel.app/api/todos/filters?${queryParams.toString()}`,
+            // `http://localhost:3000/api/todos/filters?${queryParams.toString()}`,
+            `https://daily-rounds-full-dev.vercel.app/api/todos/filters?${queryParams.toString()}`,
             {
                withCredentials: true,
             }

@@ -46,11 +46,20 @@ const Header = () => {
    //    localStorage.setItem('username',e.target.value)
    // };
 
+   const downloadTheDox = ()=>{
+      const pathURL = "https://documenter.getpostman.com/view/34595465/2sB2x9kWQM"
+      const createElement  = document.createElement("a")
+      createElement.href=pathURL
+      createElement.target='_blank'
+      createElement.download="api_documentaion"
+      createElement.click()
+      document.body.removeChild(createElement)
+   }
    return (
       <div className="flex w-full px-6 py-7  bg-white shadow-md justify-between items-center">
          <h1 className="font-bold text-3xl text-gray-900">ToDo List</h1>
          <div className="flex flex-row gap-4">
-            <button className="px-6 button py-2">Export</button>
+            <button className="px-6 button py-2" onClick={downloadTheDox}>Export</button>
             <p className="px-6 py-2 shadow-md font-semibold text-gray-800">Welcome,{"    "}{currentUser}</p>
             {/* <select
                className="flex px-6 py-2 justify-center border-gray-500 border-1 bg-gray-100 cursor-pointer items-center rounded-md  outline-0 shadow-md"

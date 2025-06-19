@@ -20,8 +20,8 @@ const ToDoAssemble = ({alltodos}) => {
    const pagination = async () => {
       try {
          const result = await axios.get(
-            `http://localhost:3000/api/todos?page=${currentPage}`,
-            // `https://daily-rounds-full-dev.vercel.app/api/todos?page=${currentPage}`,
+            // `http://localhost:3000/api/todos?page=${currentPage}`,
+            `https://daily-rounds-full-dev.vercel.app/api/todos?page=${currentPage}`,
             {
                withCredentials: true,
             }
@@ -47,8 +47,8 @@ const ToDoAssemble = ({alltodos}) => {
    const toggleCompletion = async (todoId, currentStatus) => {
       try {
          const result = await axios.patch(
-            `http://localhost:3000/api/todos/${todoId}`,
-            // `https://daily-rounds-full-dev.vercel.app/api/todos/${todoId}`,
+            // `http://localhost:3000/api/todos/${todoId}`,
+            `https://daily-rounds-full-dev.vercel.app/api/todos/${todoId}`,
             { completed: !currentStatus },
             {
                headers: {
@@ -69,8 +69,8 @@ const ToDoAssemble = ({alltodos}) => {
    const handleDelete = async (todoId) => {
       try {
          const result = await axios.delete(
-            `http://localhost:3000/api/todos/${todoId}`,
-            // `https://daily-rounds-full-dev.vercel.app/api/todos/${todoId}`,
+            // `http://localhost:3000/api/todos/${todoId}`,
+            `https://daily-rounds-full-dev.vercel.app/api/todos/${todoId}`,
             {
                withCredentials: true,
             }
@@ -91,8 +91,8 @@ const ToDoAssemble = ({alltodos}) => {
       if (!noteContent.trim()) return;
       try {
          const result = await axios.post(
-            `http://localhost:3000/api/todos/${currentSelectedId}/notes`,
-            // `https://daily-rounds-full-dev.vercel.app/api/todos/${currentSelectedId}/notes`,
+            // `http://localhost:3000/api/todos/${currentSelectedId}/notes`,
+            `https://daily-rounds-full-dev.vercel.app/api/todos/${currentSelectedId}/notes`,
             { notes: noteContent },
             {
                headers: {

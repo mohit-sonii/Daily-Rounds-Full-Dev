@@ -21,8 +21,8 @@ const AddTodoPopup = ({ onClose, onSubmit}) => {
       const fetchUsers = async () => {
          try {
             const res = await axios.get(
-               "http://localhost:3000/api/user/get-users",
-               // "https://daily-rounds-full-dev.vercel.app/api/user/get-users",
+               // "http://localhost:3000/api/user/get-users",
+               "https://daily-rounds-full-dev.vercel.app/api/user/get-users",
                {
                   withCredentials: true,
                }
